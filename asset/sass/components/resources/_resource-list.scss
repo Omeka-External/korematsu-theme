@@ -1,0 +1,50 @@
+.resource-list {
+    height: auto !important;
+	list-style: none;
+    padding-left: 0;
+
+    .resource {
+        display: flex;
+        border: 1px solid $color__hr;
+        border-radius: 15px;
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        margin-bottom: 16px;
+
+        &::before {
+            content: none !important;
+        }
+
+        &__thumbnail {
+            flex-shrink: 0;
+            line-height: 1;
+            margin: 15px 15px 15px auto;
+            order: 1;
+
+            img {
+                height: 120px;
+                object-fit: cover;
+                width: 120px;
+            }
+        }
+
+        &__content {
+            padding: 15px;
+
+            a {
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
+
+            .description.ellipsis {
+                -webkit-line-clamp: 2;
+            }
+        }
+
+        &__meta {
+            padding: 5px 10px;
+        }
+    }
+}

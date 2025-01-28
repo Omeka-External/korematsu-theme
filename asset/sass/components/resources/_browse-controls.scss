@@ -1,0 +1,76 @@
+.browse-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    input[type=text],
+    select {
+        padding: 8px 15px;
+        margin-bottom: 0;
+    }
+
+    select {
+        min-width: 100px;
+        padding-right: 45px;
+        width: auto;
+    }
+
+    .layout-toggle {
+        display: flex;
+        gap: 20px;
+
+        button {
+            background: none;
+            padding: 0;
+            color: $color__primary;
+
+            &:hover,
+            &:active,
+            &:focus {
+                outline: none;
+            }
+
+            &:disabled,
+            &[disabled]
+            &.disabled {
+                color: $color__disabled;
+                text-decoration: none;
+            }
+        }
+
+        .layout-toggle-separator {
+            border-left: 1px solid;
+        }
+    }
+
+    .sorting {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 15px;
+        margin-left: auto;
+        max-width: 100%;
+
+        button {
+            padding: 10px 30px;
+        }
+    }
+
+    .advanced-search-container {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+
+        a {
+            font-size: $font__sm-size;
+        }
+    }
+
+    .permalink {
+        @include secondary-button;
+        padding: 10px 20px;
+    }
+}

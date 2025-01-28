@@ -1,0 +1,61 @@
+<?php
+$escAttr = $this->plugin('escapeHtmlAttr');
+
+$siteTitle = $site->title();
+$userBar = $this->userBar();
+
+$this->htmlElement('html')->setAttribute('lang', $this->lang());
+$this->headMeta()->setCharset('utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headTitle($siteTitle)->setSeparator(' · ');
+$this->headTitle()->append($this->setting('installation_title', 'Omeka S'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/style.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600;1,700&display=swap');
+$this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+$this->jsTranslate();
+$this->trigger('view.layout');
+
+if ($userBar) {
+    $this->htmlElement('body')->appendAttribute('class', 'user-bar');
+}
+
+$page_template = isset($page) ? $page->layoutDataValue('template_name') : '';
+
+$mainContentClass = $page_template === 'page-with-hero' || $page_template === 'full-width' ? 'fullwidth-container' : 'container';
+?>
+
+<?php echo $this->doctype(); ?>
+<?php echo $this->htmlElement('html'); ?>
+    <head>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headStyle(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+
+    <?php echo $this->htmlElement('body'); ?>
+        <a id="skipnav" href="#content"><?php echo $this->translate('Skip to main content'); ?></a>
+
+        <?php echo $this->partial('common/header', ['userBar' => $userBar, 'site' => $site]); ?>
+
+        <?php if($page_template === 'page-with-hero'): ?>
+            <?php echo $this->partial('common/banner'); ?>
+        <?php endif; ?>
+
+        <div id="main-content" class="<?php echo $escAttr($mainContentClass); ?>" role="main">
+            <?php echo $this->content; ?>
+        </div>
+
+        <?php echo $this->partial('common/footer'); ?>
+        <?php echo $this->partial('common/menu-drawer'); ?>
+
+        <?php
+        echo $this->inlineScript()
+            ->prependFile($this->assetUrl('js/navigation.js'))
+            ->prependFile($this->assetUrl('js/script.js'));
+        ?>
+    </body>
+</html>

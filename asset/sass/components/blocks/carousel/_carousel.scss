@@ -1,0 +1,72 @@
+.carousel-block {
+    padding-left: 45px;
+    padding-right: 45px;
+
+    .slick-slide {
+        > div {
+            display: flex;
+        }
+
+        img {
+            max-height: 350px;
+        }
+    }
+
+    .slick-arrow {
+        border: 1px solid $color__primary;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+
+        &:hover {
+            background-color: $color__primary;
+
+            .slick-prev-icon,
+            .slick-next-icon {
+                &::before {
+                    color: $color__white;
+                }
+            }
+        }
+
+        &.slick-next {
+            right: -45px;
+        }
+
+        &.slick-prev {
+            left: -45px;
+        }
+
+        .slick-prev-icon,
+        .slick-next-icon {
+            &::before {
+                @include font-awesome;
+                color: $color__buttons;
+                font-size: 1.2rem;
+                line-height: 1;
+                opacity: 1;
+                transition: color 0.3s ease;
+            }
+        }
+
+        .slick-prev-icon {
+            &::before {
+                content: "\f060";
+            }
+        }
+
+        .slick-next-icon {
+            &::before {
+                content: "\f061";
+            }
+        }
+    }
+
+    .slick-dots {
+        button {
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
+}

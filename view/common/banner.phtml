@@ -1,0 +1,34 @@
+<?php
+$escHtml = $this->plugin('escapeHtml');
+$escAttr = $this->plugin('escapeHtmlAttr');
+
+$bannerImage1 = $this->themeSettingAsset('banner_image_1');
+$bannerImage2 = $this->themeSettingAsset('banner_image_2');
+$bannerImage3 = $this->themeSettingAsset('banner_image_3');
+
+$class = ['main-banner'];
+?>
+
+<?php if ($bannerImage1 || $bannerImage2 || $bannerImage3) : ?>
+    <div class="<?php echo implode(' ', $class); ?>">
+        <div class="main-banner__slider">
+            <?php if ( $bannerImage1 ) : ?>
+                <div class="main-banner__slide" style="background-image: url('<?php echo $this->themeSettingAssetUrl('banner_image_1'); ?>');"></div>
+            <?php endif; ?>
+            <?php if ( $bannerImage2 ) : ?>
+                <div class="main-banner__slide" style="background-image: url('<?php echo $this->themeSettingAssetUrl('banner_image_2'); ?>');"></div>
+            <?php endif; ?>
+            <?php if ( $bannerImage3 ) : ?>
+                <div class="main-banner__slide" style="background-image: url('<?php echo $this->themeSettingAssetUrl('banner_image_3'); ?>');"></div>
+            <?php endif; ?>
+        </div>
+        <div class="main-banner__content">
+            <?php if ($this->themeSetting('logo')): ?>
+                <img class="logo-responsive logo-desktop" src="<?php echo $this->themeSettingAssetUrl('logo'); ?>" alt="<?php echo $this->escapeHtml( $site->title() ); ?>" />
+                <?php if ($this->themeSetting('logo_mobile')): ?>
+                    <img class="logo-responsive logo-mobile" src="<?php echo $this->themeSettingAssetUrl('logo_mobile'); ?>" alt="<?php echo $this->escapeHtml( $site->title() ); ?>" />
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

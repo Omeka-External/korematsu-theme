@@ -1,0 +1,39 @@
+<header class="main-header">
+
+	<?php echo $userBar; ?>
+
+	<div class="main-header__main-bar wide-container">
+		<div class="main-header__site-title">
+			<a href="<?php echo $site->url(); ?>">
+                <?php if ($this->themeSetting('logo')): ?>
+                    <img class="logo-responsive logo-desktop" src="<?php echo $this->themeSettingAssetUrl('logo'); ?>" alt="<?php echo $this->escapeHtml( $site->title() ); ?>" />
+                    <?php if ($this->themeSetting('logo_mobile')): ?>
+                        <img class="logo-responsive logo-mobile" src="<?php echo $this->themeSettingAssetUrl('logo_mobile'); ?>" alt="<?php echo $this->escapeHtml( $site->title() ); ?>" />
+                    <?php endif; ?>
+                <?php else: ?>
+                    <?php echo $this->escapeHtml( $site->title() ); ?>
+                <?php endif; ?>
+			</a>
+		</div>
+
+		<nav class="main-navigation">
+			<div class="main-navigation__container">
+				<?php
+				echo $site->publicNav()->menu()->renderMenu(null, [
+					'addClassToListItem' => true,
+					'maxDepth' => -1
+				]);
+				?>
+			</div>
+			<div class="main-navigation__toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</nav>
+
+		<?php echo $this->partial('common/main-header-search'); ?>
+
+	</div>
+
+</header>

@@ -1,0 +1,105 @@
+<?php
+$escHtml = $this->plugin('escapeHtml');
+$escAttr = $this->plugin('escapeHtmlAttr');
+$escUrl  = $this->plugin('escapeUrl');
+
+$footerSiteInfo         = $this->themeSetting('footer_site_info');
+$footerSiteInfoLogos    = $this->themeSetting('footer_site_info_logos');
+$footerMenuTitle        = $this->themeSetting('footer_menu_title');
+$footerMoreInfoTitle    = $this->themeSetting('footer_more_info_title');
+$footerMoreInfoWebsite1 = $this->themeSetting('footer_more_info_website_1') ?? '';
+$footerMoreInfoWebsite2 = $this->themeSetting('footer_more_info_website_2') ?? '';
+$footerMoreInfoEmail    = $this->themeSetting('footer_more_info_email') ?? '';
+$socialNetworks         = array('facebook', 'twitter', 'linkedin', 'instagram', 'youtube', 'mastodon');
+
+$hasSocialNetworks = false;
+foreach ($socialNetworks as $social_network) {
+    if ($this->themeSetting("{$social_network}_url")) {
+        $hasSocialNetworks = true;
+        break;
+    }
+}
+?>
+
+<div class="main-footer__top">
+    <div class="main-footer__top-container container">
+
+        <!-- Column 1 -->
+        <div class="main-footer__col1">
+            <div class="footer_site_info">
+                <?php if ($footerSiteInfo) : ?>
+                    <?php echo $footerSiteInfo; ?>
+                <?php endif; ?>
+            </div>
+
+            <?php if ($footerSiteInfoLogos): ?>
+                <img
+                    src="<?php echo $this->themeSettingAssetUrl( 'footer_site_info_logos' ); ?>"
+                    alt="<?php echo $escHtml( $site->title() ); ?>"
+                    style="<?php echo $footerSiteInfo ? 'margin-top: 30px;' : ''; ?>" />
+            <?php endif; ?>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="main-footer__col2">
+            <?php if ($footerMenuTitle): ?>
+                <h6 class="main-footer__heading"><?php echo $footerMenuTitle; ?></h6>
+            <?php endif; ?>
+
+            <?php
+                echo $site->publicNav()->menu()->renderMenu(null, [
+                    'maxDepth' => 0
+                ]);
+            ?>
+
+            <!-- Social Networks -->
+            <?php if ($hasSocialNetworks) : ?>
+                <div class="main-footer__social-network container">
+                    <?php foreach ( $socialNetworks as $social_network ) : ?>
+                        <?php if ( $social_network_url = $this->themeSetting( "{$social_network}_url" ) ) : ?>
+                            <a href="<?php echo $social_network_url; ?>">
+                                <img src="<?php echo $this->assetUrl( "img/{$social_network}.svg" ); ?>"
+                                     alt="<?php echo $escAttr( $social_network ); ?>">
+                            </a>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="main-footer__col3">
+            <?php if ($footerMoreInfoTitle): ?>
+                <h6 class="main-footer__heading"><?php echo $footerMoreInfoTitle; ?></h6>
+            <?php endif; ?>
+
+            <div class="main-footer__contact-info">
+                <?php if ($footerMoreInfoWebsite1): ?>
+                    <?php $cleaned_url = preg_replace("#^https?://#", "", $footerMoreInfoWebsite1); ?>
+                    <a href="<?php echo $footerMoreInfoWebsite1; ?>" target="_blank">
+                        <span class="link-icon"><img src="<?php echo $this->assetUrl( "img/website-icon.svg" ); ?>"
+                             alt="Website"></span> <?php echo $escHtml($cleaned_url); ?>
+                    </a>
+                <?php endif; ?>
+
+                <?php if ($footerMoreInfoWebsite2): ?>
+                    <?php $cleaned_url = preg_replace("#^https?://#", "", $footerMoreInfoWebsite2); ?>
+                    <a href="<?php echo $footerMoreInfoWebsite2; ?>" target="_blank">
+                        <span class="link-icon"><img src="<?php echo $this->assetUrl( "img/website-icon.svg" ); ?>"
+                             alt="Website"></span> <?php echo $escHtml($cleaned_url); ?>
+                    </a>
+                <?php endif; ?>
+
+
+                <?php if ($footerMoreInfoEmail): ?>
+                    <a href="mailto:<?php echo $footerMoreInfoEmail; ?>">
+                        <span class="link-icon"><img src="<?php echo $this->assetUrl( "img/email-icon.svg" ); ?>"
+                             alt="Website"></span> <?php echo $escHtml($footerMoreInfoEmail); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+
+    </div>
+
+</div>

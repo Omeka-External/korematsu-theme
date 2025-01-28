@@ -1,0 +1,24 @@
+.collecting-block-form {
+    max-width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+
+    form {
+        margin-bottom: 25px;
+
+        &::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .field {
+            box-shadow: none;
+        }
+
+        input[type=submit] {
+            float: right;
+        }
+    }
+}

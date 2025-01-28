@@ -1,0 +1,137 @@
+.media-embed {
+    &.media-display-thumbnail {
+        margin-bottom: 3rem;
+
+        .item.resource {
+            width: 100%;
+            max-width: 360px;
+
+            h3 {
+                color: $color__headings;
+                font-family: $font__body;
+                font-weight: 600;
+                margin: 1rem;
+            }
+
+            .caption {
+                margin: 1rem;
+            }
+
+            img {
+                max-height: none;
+                height: 250px;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            .decoration {
+                width: 100%;
+            }
+        }
+    }
+
+    .item.resource.tour-date {
+        h3 {
+            margin: 0 0 1rem;
+        }
+
+        .tour-date-info {
+            margin: 1rem 0;
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    padding: 0;
+
+                    &:first-child {
+                        font-weight: 600;
+                    }
+
+                    &::marker {
+                        content: none;
+                    }
+                }
+            }
+        }
+    }
+
+    &.layout-horizontal {
+        --grid-layout-gap: 30px !important;
+        align-items: start !important;
+
+        @media (max-width: $lg) {
+            --grid-column-count: 1 !important;
+        }
+
+        @media (min-width: $xl) {
+            --grid-layout-gap: 60px !important;
+        }
+
+        > div {
+            justify-self: center;
+        }
+    }
+
+    .decoration {
+        width: 100%;
+
+        .iiif_presentation {
+            padding: 0 19px 19px 0;
+        }
+    }
+}
+
+.file {
+    border-top: none !important;
+    border-bottom: none !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    .resource.item {
+
+        h3 {
+            color: $color__headings;
+            font-weight: 600;
+            padding: 0 10px;
+            font-size: 1.25rem;
+        }
+    }
+
+    &.left,
+    &.right {
+
+        @media(max-width: $md) {
+            float: none !important;
+            clear: none !important;
+            max-width: none;
+            margin: 0 !important;
+        }
+    }
+
+    &.left .item.resource,
+    &.right .item.resource {
+
+        img {
+            margin-bottom: 0;
+        }
+
+        &:first-of-type {
+            padding-top: 0.6rem !important;
+        }
+    }
+
+    &.left .item.resource {
+        margin: 0 0.5rem 1rem 0 !important;
+    }
+
+    &.right .item.resource {
+        margin: 0 0 1rem 0.5rem !important;
+    }
+
+    &.center {
+        margin-bottom: 1.5rem !important;
+    }
+}

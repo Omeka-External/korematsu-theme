@@ -1,0 +1,156 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->inlineScript()->appendFile($this->assetUrl('js/masonry.pkgd.min.js'));
+$this->inlineScript()->appendFile($this->assetUrl('js/browse.js'));
+$this->htmlElement('body')->appendAttribute('class', 'item resource browse');
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
+
+$query = $this->params()->fromQuery();
+$itemSetShow = isset($itemSet);
+if ($itemSetShow) {
+    $this->headLink()->appendStylesheet($this->assetUrl('css/resource-page-blocks.css', 'Omeka'));
+
+    // Regions
+    $mainBlockContent = $this->resourcePageBlocks($itemSet);
+    $mainHasBlocks = $mainBlockContent->hasBlocks();
+    $leftSidebarBlockContent = $this->resourcePageBlocks($itemSet, 'left');
+    $leftSidebarHasBlocks = $leftSidebarBlockContent->hasBlocks();
+    $rightSidebarBlockContent = $this->resourcePageBlocks($itemSet, 'right');
+    $rightSidebarHasBlocks = $rightSidebarBlockContent->hasBlocks();
+
+    $this->htmlElement('body')->appendAttribute('class', 'item-set');
+    $query['item_set_id'] = $itemSet->id();
+}
+
+$layoutSetting = $this->themeSetting('browse_layout', 'grid');
+$gridState = ($layoutSetting == 'togglegrid') ? 'disabled' : '';
+$listState = ($layoutSetting == 'togglelist') ? 'disabled': '';
+$isGrid = (strpos($layoutSetting, 'grid') !== false) ? true : false;
+
+if (isset($_GET['view'])) {
+	if ('list' === $_GET['view']) {
+		$gridState = '';
+		$listState = 'disabled';
+		$isGrid = false;
+	} else {
+		$gridState = 'disabled';
+		$listState = '';
+		$isGrid = true;
+	}
+}
+
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+$bodyTerm = $this->siteSetting('browse_body_property_term');
+$bodyTruncate = $this->themeSetting('truncate_body_property');
+
+?>
+
+<?php if ($itemSetShow): ?>
+    <?php echo $this->ResourceTags($itemSet); ?>
+    <?php echo $this->pageTitle($itemSet->displayTitle(null, ($valueLang)), 1); ?>
+
+    <?php if ($mainHasBlocks || $leftSidebarHasBlocks || $rightSidebarHasBlocks): ?>
+
+        <?php
+        $additionalContainerClasses = '';
+        if ($mainHasBlocks && $leftSidebarHasBlocks && $rightSidebarHasBlocks) {
+            $additionalContainerClasses = 'regions-container--all';
+        }
+        ?>
+
+        <div class="regions-container <?php echo $additionalContainerClasses; ?>">
+            <?php if ($leftSidebarHasBlocks && $blockContent = $leftSidebarBlockContent->getBlocks()): ?>
+                <div class="sidebar-region sidebar-region--left">
+                    <div class="metadata">
+                        <?php echo $blockContent; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($mainHasBlocks && $blockContent = $mainBlockContent->getBlocks()): ?>
+                <div class="main-region">
+                    <div class="metadata">
+                        <?php echo $blockContent; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($rightSidebarHasBlocks && $blockContent = $rightSidebarBlockContent->getBlocks()): ?>
+                <div class="sidebar-region sidebar-region--right">
+                    <div class="metadata">
+                        <?php echo $blockContent; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+    <?php endif; ?>
+
+    <div class="item-set-items">
+    <?php echo '<h3>' . $escape($translate('Items')) . '</h3>'; ?>
+<?php else: ?>
+    <?php echo $this->pageTitle($translate('Items'), 2); ?>
+<?php endif; ?>
+
+<?php echo $this->searchFilters(); ?>
+
+<?php echo $this->pagination(); ?>
+
+<div class="browse-controls">
+    <?php if (strpos($layoutSetting, 'toggle') !== false): ?>
+        <div class="layout-toggle">
+            <?php echo $translate('View as:'); ?>
+            <button type="button" aria-label="<?php echo $translate('Grid'); ?>" class="grid" <?php echo $gridState; ?>><i class="fas fa-th-large"></i> <?php echo $translate('Grid'); ?></button>
+            <span class="layout-toggle-separator"></span>
+            <button type="button" aria-label="<?php echo $translate('List'); ?>" class="list" <?php echo $listState; ?>><i class="fas fa-th-list"></i> <?php echo $translate('List'); ?></button>
+        </div>
+    <?php endif; ?>
+    <?php echo $this->browse()->renderSortSelector('items'); ?>
+    <div class="advanced-search-container">
+        <?php echo $this->hyperlink($translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
+    </div>
+</div>
+
+<?php $this->trigger('view.browse.before'); ?>
+
+<div class="resources <?php echo ($isGrid) ? 'resource-grid' : 'resource-list'; ?>">
+    <div class="grid-sizer"></div>  
+    <div class="gutter-sizer"></div>
+    <?php
+    foreach ($items as $item):
+        $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]')]) : $item->displayTitle(null, $valueLang);
+        $body = $bodyTerm ? $item->value($bodyTerm, ['lang' => ($valueLang)]) : $item->displayDescription(null, ($valueLang));
+        $thumbnail = $this->thumbnail($item, 'large');
+        ?>
+        <div class="item resource <?php echo ($isGrid) ? '' : 'media-object'; ?>">
+            <!-- Thumbnail -->
+            <?php if ($thumbnail): ?>
+                <div class="resource__thumbnail">
+                    <?php echo $item->linkRaw($thumbnail); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Content -->
+            <div class="resource__content">
+                <?php echo $this->ResourceTags($item); ?>
+                <!-- Metadata -->
+                <div class="resource__meta <?php echo ($isGrid) ? '' : 'media-object-section'; ?>">
+                    <?php echo $item->link($heading); ?>
+                    <?php if ($body): ?>
+                        <div class="description <?php echo ($bodyTruncate) ? $bodyTruncate : ''; ?>"><?php echo $escape($body); ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+</div>
+
+<?php echo ($itemSetShow) ? '</div>' : ''; ?>
+<?php $this->trigger('view.browse.after'); ?>
+
+<?php echo $this->pagination(); ?>

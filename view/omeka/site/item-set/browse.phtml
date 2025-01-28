@@ -1,0 +1,90 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->inlineScript()->appendFile($this->assetUrl('js/masonry.pkgd.min.js'));
+$this->inlineScript()->appendFile($this->assetUrl('js/browse.js'));
+$this->htmlElement('body')->appendAttribute('class', 'item-set resource browse');
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
+
+$layoutSetting = $this->themeSetting('browse_layout', 'grid');
+$gridState = ($layoutSetting == 'togglegrid') ? 'disabled' : '';
+$listState = ($layoutSetting == 'togglelist') ? 'disabled': '';
+$isGrid = (strpos($layoutSetting, 'grid') !== false) ? true : false;
+$bodyTerm = $this->siteSetting('browse_body_property_term');
+$bodyTruncate = $this->themeSetting('truncate_body_property');
+
+if (isset($_GET['view'])) {
+	if ('list' === $_GET['view']) {
+		$gridState = '';
+		$listState = 'disabled';
+		$isGrid = false;
+	} else {
+		$gridState = 'disabled';
+		$listState = '';
+		$isGrid = true;
+	}
+}
+
+?>
+
+<?php echo $this->pageTitle($translate('Item sets'), 2); ?>
+
+<?php echo $this->searchFilters(); ?>
+
+<?php echo $this->pagination(); ?>
+
+<div class="browse-controls">
+    <?php if (strpos($layoutSetting, 'toggle') !== false): ?>
+        <div class="layout-toggle">
+            <?php echo $translate('View as:'); ?>
+            <button type="button" aria-label="<?php echo $translate('Grid'); ?>" class="grid" <?php echo $gridState; ?>><i class="fas fa-th-large"></i> <?php echo $translate('Grid'); ?></button>
+            <span class="layout-toggle-separator"></span>
+            <button type="button" aria-label="<?php echo $translate('List'); ?>" class="list" <?php echo $listState; ?>><i class="fas fa-th-list"></i> <?php echo $translate('List'); ?></button>
+        </div>
+    <?php endif; ?>
+    <?php echo $this->browse()->renderSortSelector('item_sets'); ?>
+    <div class="advanced-search-container">
+        <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], true), ['class' => 'advanced-search']); ?>
+    </div>
+</div>
+
+<?php $this->trigger('view.browse.before'); ?>
+
+<div class="resources <?php echo ($isGrid) ? 'resource-grid' : 'resource-list'; ?>">
+    <div class="grid-sizer"></div>
+    <div class="gutter-sizer"></div>
+    <?php
+    foreach ($itemSets as $itemSet):
+        $body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($valueLang)]) : $itemSet->displayDescription(null, ($valueLang));
+        $thumbnail = $this->thumbnail($itemSet, 'large');
+        ?>
+        <div class="item-set resource <?php echo ($isGrid) ? '' : 'media-object'; ?>">
+            <!-- Thumbnail -->
+            <?php if ($thumbnail): ?>
+                <div class="resource__thumbnail">
+                    <?php echo $itemSet->linkRaw($thumbnail); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Content -->
+            <div class="resource__content">
+                <?php echo $this->ResourceTags($itemSet); ?>
+                <!-- Metadata -->
+                <div class="resource__meta <?php echo ($isGrid) ? '' : 'media-object-section'; ?>">
+                    <?php echo $itemSet->link($itemSet->displayTitle(null, $valueLang)); ?>
+                    <?php if ($body): ?>
+                        <div class="description <?php echo ($bodyTruncate) ? $bodyTruncate : ''; ?>"><?php echo $escape($body); ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+</div>
+
+<?php $this->trigger('view.browse.after'); ?>
+
+<?php echo $this->pagination(); ?>

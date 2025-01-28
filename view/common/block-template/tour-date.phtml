@@ -1,0 +1,61 @@
+<?php
+$hyperlink = $this->plugin('hyperlink');
+$escapeHtml = $this->plugin('escapeHtml');
+?>
+<div class="<?php echo $escapeHtml(implode(' ', $classes)); ?>">
+    <?php foreach($attachments as $attachment): ?>
+        <?php
+            $item = $attachment->item();
+            $date = '';
+            $startDate = $item->value('schema:startDate');
+            $endDate = $item->value('schema:endDate');
+            if ($startDate) {
+                $date .= date('M j, Y', strtotime($startDate));
+                if ($endDate) {
+                    $date .= ' - ' . date('M j, Y', strtotime($endDate));
+                }
+            }
+            $itemLocations = $item->value('schema:location', ['all' => true]);
+        ?>
+        <div class="item resource tour-date">
+            <?php
+            $media = $attachment->media() ?: $item->primaryMedia();
+            if ($media):
+                if ($mediaDisplay === 'thumbnail') {
+                    switch ($link) {
+                        case 'original':
+                            $url = $media->originalUrl();
+                            break;
+                        case 'item':
+                            $url = $item->url();
+                            break;
+                        case 'media':
+                            $url = $media->url();
+                            break;
+                        default:
+                            throw new \InvalidArgumentException(sprintf('Invalid link type "%s"', $linkType));
+                    }
+                    echo $hyperlink->raw($this->thumbnail($media, $thumbnailType), $url);
+                } else {
+                    echo $media->render([
+                        'thumbnailType' => $thumbnailType,
+                        'link' => $link,
+                    ]);
+                }
+            endif;
+            ?>
+            <div class="tour-date-info">
+                <?php if ($date): ?>
+                    <h3 class="date"><?php echo $item->link($date); ?></h3>
+                <?php endif; ?>
+                <?php if ($itemLocations): ?>
+                    <ul class="location">
+                        <?php foreach ($itemLocations as $key => $valueItemLocation): ?>
+                            <li><?php echo $valueItemLocation; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>

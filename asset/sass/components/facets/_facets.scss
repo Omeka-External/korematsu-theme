@@ -1,0 +1,268 @@
+.block-facetedBrowsePreview {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .button {
+        @include secondary-button;
+        align-self: center;
+        margin-top: 2rem;
+
+        &::after {
+            @include font-awesome;
+            content: "\f061";
+            margin-left: 10px;
+        }
+    }
+}
+
+.faceted-browse-page,
+.block-facetedBrowsePreview {
+
+    #container {
+        flex-wrap: wrap;
+
+        @media (min-width: $xl) {
+            flex-wrap: nowrap;
+            gap: 3rem;
+        }
+    }
+
+    #section-sidebar {
+        border: 1px solid $color__hr;
+        border-radius: 15px;
+        padding: 25px;
+        width: 100%;
+
+        @media (min-width: $xl) {
+            width: 25%;
+            z-index: auto !important;
+        }
+
+        &.open {
+            z-index: 1050 !important;
+        }
+
+        &-modal-toggle {
+            margin-bottom: 25px;
+        }
+
+        .field, fieldset {
+            box-shadow: none;
+            background-color: $color__gray-95;
+        }
+
+        button.close-button {
+            background-color: $color__primary;
+        }
+    }
+
+    #section-content {
+        padding-left: 0;
+        width: 100%;
+        
+
+        @media (min-width: $xl) {
+            width: 75%;
+        }
+
+        .browse-controls {
+            border-bottom: none;
+            margin-bottom: 0;
+
+            .pagination {
+                margin-top: 0;
+            }
+        }
+    }
+
+    .faceted-results {
+        img {
+            border-radius: 10px !important;
+            margin-right: 1rem;
+            max-height: 3rem;
+            max-width: 3rem;
+        }
+
+        a {
+            display: list-item;
+            width: auto;
+        }
+    }
+
+    #facets {
+        margin-bottom: 1rem;
+        overflow: hidden;
+
+        @media (min-width: $xl) {
+            height: auto;
+            margin-bottom: 0;
+            overflow: initial;
+        }
+
+        &.show-all {
+            height: auto;
+            overflow: initial;
+        }
+
+        legend {
+            font-size: $font__h5-base-size;
+        }
+    }
+
+    #show-more-facets {
+        @media (min-width: $xl) {
+            display: none;
+        }
+    }
+
+    .select-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 0 !important;
+        width: 100%;
+
+        @media (min-width: $xl) {
+            display: block;
+            margin-left: 1rem !important;
+        }
+
+        &-item {
+            margin-left: 1rem;
+
+            @media (min-width: $xl) {
+                margin-left: 0;
+            }
+
+            &::before,
+            &::marker {
+                content: none !important;
+            }
+        }
+
+        &-expand,
+        &-collapse {
+            margin-left: 1rem;
+        }
+    }
+
+    #categories {
+        margin-top: 0;
+        padding-left: 20px;
+
+        li {
+            border-bottom: none;
+
+            &::before {
+                content: none !important;
+            }
+        }
+    }
+
+    #categories-return {
+        display: inline-block;
+        margin-bottom: 33px;
+        @include secondary-button;
+
+        &::before {
+            @include font-awesome;
+            content: "\f060";
+            display: inline-block;
+            font-size: .8rem;
+            padding-right: 5px;
+            text-decoration: none;
+        }
+    }
+
+    .facets-container {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .categories-container,
+    .facets-container {
+        margin: 0;
+        padding: 0;
+
+        legend {
+            color: $color__headings;
+            font-weight: 400;
+            line-height: $font__headings-line-height;
+        }
+    }
+
+    #helper-text-expand-collapse {
+        @include link-style;
+    }
+
+    .categories-container legend {
+        font-size: $font__h3-sm-size;
+        margin-bottom: 1.1rem;
+    }
+
+    .facets-container legend {
+        font-size: $font__h4-sm-size;
+        margin-bottom: 1rem;
+    }
+
+    label input {
+        margin: 0 0.6rem 0 0 !important;
+    }
+
+    .resource-name {
+        font-weight: 500;
+    }
+
+    .resource-list {
+        padding-top: 5px;
+
+        .resource {
+            padding: 0 !important;
+        }
+
+        .resource-link {
+            width: 100%;
+        }
+
+    }
+
+    .faceted-browse-table-wrapper {
+        overflow-x: auto;
+        padding: 0 5px;
+    }
+
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0 15px;
+
+        thead {
+            background-color: $color__complementary;
+            color: $color__secondary;
+
+            th {
+                padding: 0.75rem;
+                font-weight: 500;
+                text-align: left;
+            }
+        }
+
+        tbody {
+
+            tr {
+                border-bottom: 1px solid $color__hr;
+
+                td {
+                    padding: 0.75rem;
+
+                    .resource-link {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: nowrap !important;
+                    }
+                }
+            }
+        }
+    }
+
+}

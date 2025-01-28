@@ -1,0 +1,145 @@
+<?php
+use Laminas\Form\Element\Select;
+
+$this->inlineScript()->appendFile($this->assetUrl('js/accordion.js'));
+
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
+
+// Set up pagination.
+$pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$fragment = 'resources-linked';
+$pagination->setFragment($fragment);
+
+// Set up locale.
+$valueLang = null;
+if ($this->status()->isSiteRequest()) {
+    $lang = $this->lang();
+    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
+    $valueLang = $filterLocale ? [$lang, ''] : null;
+}
+
+// Set up resource property select.
+$labelMap = [
+    'items' => 'Items', // @translate
+    'item_sets' => 'Item sets', // @translate
+    'media' => 'Media', // @translate
+];
+$resourcePropertiesSelect = new Select('resource_property');
+$resourcePropertiesSelect->setValue($resourceProperty);
+$resourcePropertiesSelect->setAttributes([
+    'id' => 'resource-property-select',
+    'data-url' => $this->url(null, [], true),
+    'data-fragment' => $fragment,
+]);
+$valueOptions = [];
+foreach ($resourcePropertiesAll as $type => $resourceProperties) {
+    if (!$resourceProperties) {
+        continue;
+    }
+    $valueOptions[$type] = [
+        'label' => $labelMap[$type],
+        'options' => [sprintf('%s:', $type) => sprintf('%s: All', $labelMap[$type])],
+    ];
+    foreach ($resourceProperties as $resourceProperty) {
+        $label = $resourceProperty['label_is_translatable']
+            ? $this->translate($resourceProperty['label'])
+            : $resourceProperty['label'];
+        $valueOptions[$type]['options'][] = [
+            'value' => $resourceProperty['compound_id'],
+            'label' => sprintf('%s: %s', $labelMap[$type], $label),
+            'attributes' => [
+                'title' => $resourceProperty['term'],
+            ],
+        ];
+    }
+}
+$resourcePropertiesSelect->setValueOptions($valueOptions);
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+?>
+<div id="linked-resources">
+
+<div class="linked-header">
+    <div id="linked-filter">
+        <label>
+            <?php echo $this->translate('Filter by resource type and property:'); ?>
+            <?php echo $this->formElement($resourcePropertiesSelect); ?>
+        </label>
+    </div>
+</div>
+
+<?php foreach ($subjectValues as $values): ?>
+    <?php
+    $caption = sprintf(
+        $this->translate('%s with "%s: %s"'),
+        $this->translate($labelMap[$resourceType]),
+        $values[0]['property_alternate_label'] ?? $this->translate($values[0]['property_label']),
+        $objectResource->displayTitle()
+    );
+    ?>
+
+    <div class="linked-resource-accordion accordion__container">
+        <h6 class="linked-resource-heading accordion__heading">
+            <button class="linked-resource-property accordion__trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="accordion__panel-<?php echo $values[0]['property_id']; ?>"
+                    id="accordion-<?php echo $values[0]['property_id']; ?>">
+                <span class="accordion__title">
+                    <?php echo $this->escapeHtml($caption); ?>
+                    <span class="accordion__icon o-icon-chevron-down"></span>
+                </span>
+            </button>
+        </h6>
+
+        <div class="linked-resource-property__panel accordion__panel"
+            id="accordion__panel-<?php echo $values[0]['property_id']; ?>"
+            role="region"
+            aria-labelledby="accordion-<?php echo $values[0]['property_id']; ?>">
+
+            <?php foreach ($values as $value) :
+                
+                $resource = $value['val']->resource();
+                $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $resource->displayTitle(null, ($valueLang));
+                $thumbnail = $this->thumbnail($resource, 'square');
+                ?>
+                
+                <div class="linked-resource">
+                    <!-- Content -->
+                    <div class="resource__content">
+                        <?php echo $this->ResourceTags($resource); ?>
+                        <?php echo $resource->link($escape($heading)); ?>
+                    </div>
+
+                    <!-- Thumbnail -->
+                    <?php if ($thumbnail) : ?>
+                        <div class="resource__thumbnail">
+                            <?php echo $resource->linkRaw($thumbnail); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+<?php endforeach; ?>
+
+<?php echo ($totalCount > $perPage) ? '<div class="linked-footer">' . $pagination . '</div>' : ''; ?>
+
+</div>
+
+<script>
+const propertySelect = $('#resource-property-select');
+const url = propertySelect.data('url');
+const fragment = propertySelect.data('fragment');
+propertySelect.on('change', function(e) {
+    const selectedOption = propertySelect.find(':selected');
+    const resourceProperty = selectedOption.val();
+    window.location = url + '?' + $.param({resource_property: resourceProperty}) + '#' + fragment;
+});
+</script>

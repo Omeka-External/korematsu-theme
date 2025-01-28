@@ -1,0 +1,78 @@
+/* Assets
+--------------------------------------------- */
+@import "assets/assets";
+
+/* Browse Preview
+--------------------------------------------- */
+@import "browse-preview/browse-preview";
+
+/* Carousel
+--------------------------------------------- */
+@import "carousel/carousel";
+
+/* Collecting
+--------------------------------------------- */
+@import "collecting/collecting";
+
+/* Item With metadata
+--------------------------------------------- */
+@import "item-with-metadata/item-with-metadata";
+
+/* Media Embed
+--------------------------------------------- */
+@import "media-embed/media-embed";
+
+/* Table of contents
+--------------------------------------------- */
+@import "table-of-contents/table-of-contents";
+
+/* List of sites
+--------------------------------------------- */
+@import "list-of-sites/list-of-sites";
+
+/* Timeline
+--------------------------------------------- */
+@import "timeline/timeline";
+
+/* Groups
+--------------------------------------------- */
+@import "groups/image-hover-text";
+
+/* HTML
+--------------------------------------------- */
+@import "html/html";
+
+.has-background {
+    border-radius: 15px;
+    padding: 50px 30px;
+
+    &.fullwidth {
+        @media (min-width: $lg) {
+            padding: 90px;
+        }
+    }
+
+    &.white {
+        background-color: $color__bg-body;
+    }
+
+    &.beige {
+        background-color: $color__complementary;
+    }
+
+    &.blue {
+        background-color: $color__secondary;
+
+        * {
+            color: $color__white;
+        }
+    }
+
+    &.red {
+        background-color: $color__primary;
+
+        * {
+            color: $color__white;
+        }
+    }
+}

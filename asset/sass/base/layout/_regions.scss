@@ -1,0 +1,65 @@
+.regions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-bottom: 3rem;
+
+    @media (min-width: $md) {
+        flex-direction: row;
+    }
+
+    .main-region {
+        order: -1;
+        width: 100%;
+
+        @media (min-width: $md) {
+            order: initial;
+        }
+    }
+
+    .sidebar-region {
+        flex-shrink: 0;
+        position: relative;
+        width: 100%;
+
+        @media (min-width: $md) {
+            width: 30%;
+        }
+
+        &--left {
+            &::after {
+                right: -30px;
+            }
+        }
+    
+        &--right {
+            &::after {
+                left: -30px;
+            }
+        }
+    }
+
+    &--all {
+        flex-direction: column !important;
+
+        @media (min-width: $xl) {
+            flex-direction: row !important;
+        }
+
+        .main-region {
+            order: -1 !important;
+
+            @media (min-width: $xl) {
+                order: initial !important;
+            }
+        }
+
+        .sidebar-region {
+            width: 100% !important;
+
+            @media (min-width: $xl) {
+                width: 20% !important;
+            }
+        }
+    }
+}
