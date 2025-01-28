@@ -1,7 +1,7 @@
 # Korematsu S: An Omeka S Theme
 
 This is an Omeka S theme that offers some custom options and a clean design.
-![Korematsu Theme](https://github.com/Omeka-External/korematsu-theme/blob/master/theme.jpg?raw=true)
+![Korematsu Theme](https://github.com/Omeka-External/korematsu-theme/blob/main/theme.jpg?raw=true)
 
 ## Installation
 
