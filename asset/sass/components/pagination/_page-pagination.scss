@@ -1,10 +1,10 @@
 .site-page-pagination {
     display: flex;
-    border-top: 1px solid $color__secondary;
+    border-top: 1px solid $color__hr;
     gap: 1rem;
     justify-content: center;
-    margin: 30px 0;
-    padding: 30px 0;
+    margin-top: 30px;
+    padding-top: 30px;
 
     a {
         @include secondary-button;
