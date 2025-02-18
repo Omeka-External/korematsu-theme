@@ -1,0 +1,54 @@
+<?php
+$hyperlink = $this->plugin('hyperlink');
+?>
+<div class="<?php echo $this->escapeHtml(implode(' ', $classes)); ?>">
+    <?php foreach($attachments as $attachment): ?>
+    <?php $item = $attachment->item(); ?>
+    <div class="item resource">
+        <?php
+        $media = $attachment->media() ?: $item->primaryMedia();
+        if ($media):
+            if ($mediaDisplay === 'thumbnail') {
+                switch ($link) {
+                    case 'original':
+                        $url = $media->originalUrl();
+                        break;
+                    case 'item':
+                        $url = $item->url();
+                        break;
+                    case 'media':
+                        $url = $media->url();
+                        break;
+                    default:
+                        throw new \InvalidArgumentException(sprintf('Invalid link type "%s"', $linkType));
+                }
+                echo $hyperlink->raw($this->thumbnail($media, $thumbnailType), $url);
+            } else {
+                echo $media->render([
+                    'thumbnailType' => $thumbnailType,
+                    'link' => $link,
+                ]);
+            }
+        endif;
+
+        $title = '';
+        if ($showTitleOption === 'item_title') {
+            $title = $item->link($item->displayTitle());
+        } elseif ($showTitleOption === 'file_name') {
+            $title = $media->displayTitle();
+        }
+        $caption = $attachment->caption();
+        ?>
+        <?php if ($title || $caption): ?>
+        <div class="caption">
+            <?php if ($title): ?>
+                <h3><?php echo $title; ?></h3>
+            <?php endif; ?>
+            <?php if ($caption): ?>
+                <?php echo $caption; ?>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php endforeach; ?>
+</div>

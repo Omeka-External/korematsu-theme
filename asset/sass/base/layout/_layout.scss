@@ -76,8 +76,10 @@ body {
         }
     }
 
-    .blocks > .has-background:last-child,
-    .blocks .blocks-inner > .has-background:last-child {
+    .blocks > .fullwidth.has-background:last-child,
+    .blocks > .grid-span-12.has-background:last-child,
+    .blocks .blocks-inner > .fullwidth.has-background:last-child,
+    .blocks .blocks-inner > .grid-span-12.has-background:last-child {
         margin-bottom: -3rem;
 
         @media (min-width: $lg) {
