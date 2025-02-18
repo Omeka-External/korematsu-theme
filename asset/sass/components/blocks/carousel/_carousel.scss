@@ -7,8 +7,17 @@
             display: flex;
         }
 
-        img {
-            max-height: 350px;
+        a {
+            color: $color__secondary;
+            text-decoration: none;
+
+            .title {
+                text-decoration: underline;
+            }
+
+            .caption p * {
+                font-style: normal;
+            }
         }
     }
 
