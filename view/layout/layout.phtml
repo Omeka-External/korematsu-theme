@@ -23,7 +23,7 @@ if ($userBar) {
 
 $page_template = isset($page) ? $page->layoutDataValue('template_name') : '';
 
-$mainContentClass = $page_template === 'page-with-hero' || $page_template === 'full-width' ? 'fullwidth-container' : 'container';
+$mainContentClass = strpos($page_template, 'page-with-hero') === 0 || strpos($page_template, 'full-width') === 0 ? 'fullwidth-container' : 'container';
 ?>
 
 <?php echo $this->doctype(); ?>
@@ -41,7 +41,7 @@ $mainContentClass = $page_template === 'page-with-hero' || $page_template === 'f
 
         <?php echo $this->partial('common/header', ['userBar' => $userBar, 'site' => $site]); ?>
 
-        <?php if($page_template === 'page-with-hero'): ?>
+        <?php if (strpos($page_template, 'page-with-hero') === 0): ?>
             <?php echo $this->partial('common/banner'); ?>
         <?php endif; ?>
 
