@@ -1,6 +1,15 @@
 .carousel-block {
+    margin: 0 !important;
     padding-left: 45px;
     padding-right: 45px;
+
+    .slick-slider {
+        padding: 3rem 0;
+
+        @media(min-width: $md) {
+            padding: 3rem 2rem;
+        }
+    }
 
     .slick-slide {
         > div {
@@ -17,6 +26,44 @@
 
             .caption p * {
                 font-style: normal;
+            }
+        }
+
+        .slide-text {
+            background-color: $color__secondary;
+            border-radius: 0 0 15px 15px;
+            color: $color__white;
+            font-style: normal;
+            margin-top: -15px;
+            padding: 10px 15px;
+            position: relative;
+            text-align: left;
+            width: 100%;
+
+            .title {
+                margin-bottom: 0 !important;
+            }
+
+            .caption {
+                font-style: normal;
+
+                p:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .caption-beige & {
+            .slide-text {
+                background-color: $color__complementary;
+                color: $color__main-text;
+            }
+        }
+
+        .caption-red & {
+            .slide-text {
+                background-color: $color__primary;
+                color: $color__white;
             }
         }
     }
@@ -72,6 +119,8 @@
     }
 
     .slick-dots {
+        bottom: 0;
+
         button {
             &:hover {
                 background-color: transparent;

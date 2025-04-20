@@ -1,0 +1,169 @@
+<?php
+$this->headLink()->appendStylesheet('//cdn.jsdelivr.net/npm/@accessible360/accessible-slick@1.0.1/slick/slick.min.css');
+$this->headLink()->appendStylesheet('//cdn.jsdelivr.net/npm/@accessible360/accessible-slick@1.0.1/slick/slick-theme.min.css');
+$this->headLink()->appendStylesheet($this->assetUrl('css/item-carousel.css', 'ItemCarouselBlock'));
+$this->headScript()->appendFile('//cdn.jsdelivr.net/npm/@accessible360/accessible-slick@1.0.1/slick/slick.min.js');
+$carouselID = 'carousel-' . $blockID;
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
+?>
+<div class="carousel-block">
+	<?php if ($this->carouselHeading): ?>
+	<h2><?php echo $this->carouselHeading; ?></h2>
+	<?php endif; ?>
+	<div class="<?php echo $carouselID; ?>">
+	<?php
+		foreach ($attachments as $attachment) {
+			$item = $attachment->item();
+			// Skip if item doesn't exist
+			if (!$item) {
+				continue;
+			}
+			$media = $attachment->media() ?: $item->primaryMedia();
+			$caption = $this->showCaption == 'true' ? $attachment->caption() : '';
+			$title = '';
+						
+			if ($this->showTitleOption == 'item_title') {
+				$title = $item->displayTitle(null, $valueLang);
+			} elseif ($this->showTitleOption == 'file_name') {			
+				$title = $media ? $media->displayTitle(null, $valueLang) : $item->displayTitle(null, $valueLang);
+			}
+			
+			if ($this->showTitleOption == 'no_title' && $this->showCaption == 'false') {
+				$textDiv = '';
+			} elseif ($this->showTitleOption == 'no_title' && $this->showCaption == 'true') {			
+				$textDiv = sprintf('<div class="slide-text"><div class="caption">%s</div></div>', $caption);
+			} elseif ($this->showTitleOption != 'no_title' && $this->showCaption == 'false') {			
+				$textDiv = sprintf('<div class="slide-text"><div class="title">%s</div></div>', $title);
+			} else {
+				$textDiv = sprintf('<div class="slide-text"><div class="title">%s</div><div class="caption">%s</div></div>', 
+				$title, $caption);
+			}
+			
+			if ($media) {
+				$slide = $this->thumbnail($media, $this->thumbnailType) . $textDiv;
+				echo '<div>' . $item->linkRaw($slide) . '</div>';
+			} else {
+				$slide = $textDiv;
+				echo '<div>' . $item->linkRaw($slide) . '</div>';
+			} 
+		}
+	?>
+	</div>
+
+	<script>
+	$(document).ready(function() {
+		$('.<?php echo $carouselID; ?>')
+			.slick({
+				slidesToShow: <?php echo $this->perPage ?>,
+				slidesToScroll: 1,
+				infinite: <?php echo $this->loop ?>,
+				draggable: true,
+				<?php if ($this->fade): ?>
+				fade: <?php echo $this->fade ?>,
+				<?php endif; ?>
+				<?php if ($this->autoSlideDuration > 0): ?>
+				autoplay: true,
+				autoplaySpeed: <?php echo $this->autoSlideDuration ?>,
+				<?php endif; ?>
+				pauseOnHover: true,
+				centerMode: false,
+				arrows: true,
+				dots: true,
+				adaptiveHeight: false,
+				responsive: [
+					<?php if ($this->perPage > 2): ?>
+					{
+						breakpoint: 1200,
+						settings: {
+							slidesToShow: 2,
+						},
+					},
+					<?php endif; ?>
+					{
+						breakpoint: 840,
+						settings: {
+							slidesToShow: 1,
+						},
+					},
+				],
+			});
+		$('.<?php echo $carouselID; ?> .slick-slide').css({
+				'text-align': '<?php echo $this->slideCSSTextAlign ?>',
+			});
+		<?php if ($this->perPage > 1): ?>
+			$('.<?php echo $carouselID; ?> .slick-track').css({
+				'align-items': 'center',
+			});
+		<?php endif; ?>
+		<?php if ($this->slideCSSStretch == 'width'): ?>
+			$('.<?php echo $carouselID; ?> .slick-slide > div').css({
+				'width': '100%',
+			});
+			$('.<?php echo $carouselID; ?> .slick-slide img').css({
+				'width': '100%',
+				'object-fit': 'cover',
+			});
+			$('.<?php echo $carouselID; ?> .slick-track').css({
+				'align-items': 'initial',
+			});
+		<?php endif; ?>
+		<?php if ($this->slideCSSStretch == 'height'): ?>
+			$('.<?php echo $carouselID; ?> .slick-slide > div').css({
+				'height': '100%',
+                'position': 'relative',
+			});
+			$('.<?php echo $carouselID; ?> .slick-slide img').css({
+				'height': '100%',
+				'object-fit': 'cover',
+			});
+			$('.<?php echo $carouselID; ?> .slick-slide .slide-text').css({
+				'position': 'absolute',
+				'width': '100%',
+				'bottom': '0',
+				'left': '0',
+			});
+			$('.<?php echo $carouselID; ?> .slick-track').css({
+				'align-items': 'initial',
+			});
+		<?php endif; ?>
+		<?php if ($this->slideCSSStretch == 'entire'): ?>
+			$('.<?php echo $carouselID; ?> .slick-slide > div').css({
+				'width': '100%',
+				'height': '100%',
+				'position': 'relative',
+			});
+			$('.<?php echo $carouselID; ?> .slick-slide img').css({
+				'width': '100%',
+				'height': '100%',
+				'object-fit': 'cover',
+			});
+			$('.<?php echo $carouselID; ?> .slick-slide .slide-text').css({
+				'position': 'absolute',
+				'width': '100%',
+				'bottom': '0',
+				'left': '0',
+			});
+			$('.<?php echo $carouselID; ?> .slick-track').css({
+				'align-items': 'initial',
+			});
+		<?php endif; ?>
+		<?php if ($this->floatCaption == 'true'): ?>
+			$('.<?php echo $carouselID; ?> .slick-slide > div').css({
+				'position': 'relative',
+			});
+			$('.<?php echo $carouselID; ?> .slick-slide .slide-text').css({
+				'position': 'absolute',
+				'top': '50%',
+				'width': '100%',
+			});			
+		<?php endif; ?>
+		<?php if ($this->thumbnailType != 'large'): ?>
+			$('.<?php echo $carouselID; ?> .slick-track .slick-slide').css({
+				'align-items': 'center',
+			});
+		<?php endif; ?>
+	});
+	</script>
+</div>
