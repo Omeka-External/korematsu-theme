@@ -63,27 +63,34 @@ For more advanced use, such as customizing the theme with Sass, you'll need to i
 ### Page Templates
 
 This theme offers 5 different page templates:
-- Default
-- No page navigation (a page with default layout but without page navigation)
-- Page with Hero (a page with the hero slider set in the theme's settings page)
-- Page with Hero - No page navigation (same as the above but without page navigation)
-- Full width (a page with full width layout)
-- Full width - No page navigation (same as the above but without page navigation)
+- **Default**
+- **No page navigation**: A page with default layout but without page navigation.
+- **Page with Hero**: A page with the hero slider set in the theme's settings page.
+- **Page with Hero - No page navigation**: Same as the above but without page navigation.
+- **Full width**: A page with full width layout.
+- **Full width - No page navigation**: Same as the above but without page navigation.
 
 ### Assets with animated captions
 
+![aiaa-hover-captions-3](https://github.com/user-attachments/assets/43cef1d7-aa2a-4b97-8762-c0f2f2095c24)
+
 You can add assets whose captions show up with a transition effect over the asset when you hover them.
 
-To do this, you just have to add a "Group" block to your page, then assign a class "image-hover-text" to this block, and finally add 3 blocks to the Group:
+To do this, you just have to add a "Group" block to your page, then assign a class `image-hover-text` to this block, and optionally, a color class for the overlay: `blue`, `beige` or `red`. If no color class is assigned, it'll default to `blue`.
+
+Finally add 3 blocks to the Group:
 1. Asset block: The image.
-2. HTML block: The content that will show up in the animated caption on hover the image. It must have an <h4> heading in order for it to be previewed over the image.
+2. HTML block: The content that will show up in the animated caption on hover the image. It must have an `<h4>` heading in order for it to be previewed over the image.
 3. HTML block: Another HTML block just to add the link. It will be rendered as an arrow button.
+<img width="1438" alt="Screenshot 2025-04-20 at 10 10 29 PM" src="https://github.com/user-attachments/assets/a6242227-7cdb-416a-ac9b-1af197920f63" />
 
 ### Colored Captions
 
-Captions in blocks like "Asset", "Item Carousel", and "Media Embed" are rendered with a color background (blue by default).
+Captions in blocks like "**Asset**", "**Item Carousel**", and "**Media Embed**" are rendered with a color background (blue by default).
 
-You can customize this color (beige or red) by assigning either "caption-beige" or "caption-red" class to the block in the "Block layout configuration" panel.
+You can customize this color (beige or red) by assigning either `caption-beige` or `caption-red` class to the block in the "Block layout configuration" panel.
+
+<img width="1443" alt="Screenshot 2025-04-20 at 9 33 59 PM" src="https://github.com/user-attachments/assets/30a5e0bd-be10-4a23-8be3-f393fab5a355" />
 
 ### Group blocks with color background
 
