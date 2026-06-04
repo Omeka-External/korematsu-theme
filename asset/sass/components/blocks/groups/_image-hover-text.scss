@@ -10,10 +10,11 @@
         grid-column-start: auto !important;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
         .block-html {
-            background-color: rgba($color__secondary, 0.95);
-            bottom: 0 !important;
+            background-color: color-mix(in srgb, $color__secondary 95%, transparent);
+            transform: translateY(0);
 
             h4 {
                 background-color: transparent;
@@ -53,26 +54,27 @@
         padding: 30px 90px 30px 30px;
         position: absolute;
         background-color: transparent;
-        bottom: -100%;
-        color: $color__white;
+        bottom: 0;
+        transform: translateY(var(--block-html-offset, 100%));
+        color: $color__secondary-contrast;
         left: 0;
         height: 100%;
         width: 100%;
-        transition: all 0.4s ease-in-out;
+        transition: transform 0.4s ease-in-out, background-color 0.4s ease-in-out, opacity 0.4s ease-in-out;
 
         @media (min-width: $sm) {
             padding: 30px 30% 30px 30px;
         }
 
         &:last-child {
-            transition: all 0.6s ease-in-out;
+            transition: transform 0.6s ease-in-out, background-color 0.6s ease-in-out, opacity 0.6s ease-in-out;
         }
 
         h4 {
             display: inline-block;
-            background-color: rgba($color__secondary, 0.95);
+            background-color: color-mix(in srgb, $color__secondary 95%, transparent);
             border-radius: 15px;
-            color: $color__white;
+            color: $color__secondary-contrast;
             font-weight: 400;
             margin-bottom: 10px;
             margin-left: -20px;
@@ -134,10 +136,12 @@
         }
     }
 
-    &.red {
-        &:hover {
+    &.red,
+    &.primary {
+        &:hover,
+        &:focus-within {
             .block-html {
-                background-color: rgba($color__primary, 0.95);
+                background-color: color-mix(in srgb, $color__primary 95%, transparent);
 
                 h4 {
                     background-color: transparent;
@@ -146,8 +150,11 @@
         }
 
         .block-html {
+            color: $color__primary-contrast;
+
             h4 {
-                background-color: rgba($color__primary, 0.95);
+                background-color: color-mix(in srgb, $color__primary 95%, transparent);
+                color: $color__primary-contrast;
             }
 
             &.read-more {
@@ -158,10 +165,12 @@
         }
     }
 
-    &.beige {
-        &:hover {
+    &.beige,
+    &.complementary {
+        &:hover,
+        &:focus-within {
             .block-html {
-                background-color: rgba($color__complementary, 0.95);
+                background-color: color-mix(in srgb, $color__complementary 95%, transparent);
 
                 h4 {
                     background-color: transparent;
@@ -170,11 +179,11 @@
         }
 
         .block-html {
-            color: $color__main-text;
+            color: $color__complementary-contrast;
 
             h4 {
-                background-color: rgba($color__complementary, 0.95);
-                color: $color__main-text;
+                background-color: color-mix(in srgb, $color__complementary 95%, transparent);
+                color: $color__complementary-contrast;
             }
 
             &.read-more {

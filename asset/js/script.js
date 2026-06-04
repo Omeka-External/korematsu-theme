@@ -11,14 +11,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const mainBannerContent = document.querySelector('.main-banner__content');
     const userBar = document.getElementById('user-bar');
     const menuDrawer = document.getElementById('menu-drawer');
-    const mainContent = document.getElementById('main-content');
+    const menuToggle = document.querySelector( '.main-navigation__toggle' );
+    const mainContent = document.getElementById('content');
     const mainFooter = document.querySelector('.main-footer');
 
     // Resize Events
 
     let userBarHeight = 0;
     let timeout = false;
-    const delay = 250;
+    const delay = 150;
 
     onResize();
 
@@ -32,6 +33,10 @@ document.addEventListener("DOMContentLoaded", function() {
             menuDrawer.style.top = (mainHeader.offsetHeight - userBarHeight) + 'px';
         } else {
             menuDrawer.style.top = mainHeader.offsetHeight + 'px';
+        }
+
+        if (window.innerWidth >= 1200 && menuToggle.getAttribute('aria-expanded') === 'true') {
+            menuToggle.click();
         }
     }
 
@@ -186,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const blockHtmlTitleStyles = window.getComputedStyle(blockHtmlTitle);
                 const blockHtmlTitleMarginBottom = parseFloat(blockHtmlTitleStyles.marginBottom);
                 const blockHtmlInitialBottom = blockHtml.offsetHeight - blockHtmlTitle.offsetTop - blockHtmlTitle.offsetHeight - blockHtmlTitleMarginBottom;
-                blockHtml.style.bottom = - blockHtmlInitialBottom + 'px';
+                blockHtml.style.setProperty('--block-html-offset', blockHtmlInitialBottom + 'px');
             }
 
         });
@@ -196,6 +201,36 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.image-hover-text .read-more a').forEach(function(imageHoverTextViewMore) {
         imageHoverTextViewMore.textContent = '';
     });
+
+    // Prevent browser scroll-into-view when tabbing into .image-hover-text elements.
+    // Browsers use visual position (after transforms) for focus scroll, so without this
+    // the page jumps when the off-screen panel receives keyboard focus.
+    document.addEventListener('keydown', function(e) {
+        if (e.key !== 'Tab') return;
+
+        const focusables = Array.from(document.querySelectorAll(
+            'a[href], button, input, select, textarea, [tabindex]'
+        )).filter(function(el) {
+            return el.tabIndex >= 0
+                && !el.disabled
+                && window.getComputedStyle(el).display !== 'none'
+                && window.getComputedStyle(el).visibility !== 'hidden';
+        });
+
+        let currentIndex = focusables.indexOf(document.activeElement);
+        // activeElement not in list (e.g. document.body) — treat as before/after the sequence
+        if (currentIndex === -1) currentIndex = e.shiftKey ? focusables.length : -1;
+
+        const nextIndex = e.shiftKey ? currentIndex - 1 : currentIndex + 1;
+        if (nextIndex < 0 || nextIndex >= focusables.length) return;
+
+        const nextEl = focusables[nextIndex];
+        if (nextEl.closest('.image-hover-text')) {
+            e.preventDefault();
+            nextEl.focus({ preventScroll: true });
+            nextEl.closest('.image-hover-text').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }, true);
 
     // Set Main-content min-height
     function setMainContentMinHeight() {

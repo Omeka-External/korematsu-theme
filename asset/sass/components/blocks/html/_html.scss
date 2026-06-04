@@ -1,13 +1,16 @@
 .block-html {
-    &.text-blue {
+    &.text-blue,
+    &.text-secondary {
         color: $color__secondary;
     }
 
-    &.text-red {
+    &.text-red,
+    &.text-primary {
         color: $color__primary;
     }
 
-    &.text-beige {
+    &.text-beige,
+    &.text-complementary {
         color: $color__complementary;
     }
 }

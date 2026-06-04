@@ -23,7 +23,7 @@
         .caption {
             background-color: $color__secondary;
             border-radius: 0 0 15px 15px;
-            color: $color__white;
+            color: $color__secondary-contrast;
             font-style: normal;
             margin-top: -15px;
             padding: 10px 15px;
@@ -37,7 +37,7 @@
 
             a,
             .link-title {
-                color: $color__white;
+                color: $color__secondary-contrast;
                 font-family: $font__body;
                 font-size: $font__base-size;
                 font-weight: 500;
@@ -48,26 +48,28 @@
             }
         }
 
-        .caption-beige & {
+        .caption-beige &,
+        .caption-complementary & {
             .caption {
                 background-color: $color__complementary;
-                color: $color__main-text;
+                color: $color__complementary-contrast;
 
                 a,
                 .link-title {
-                    color: $color__link;
+                    color: $color__complementary-contrast;
                 }
             }
         }
 
-        .caption-red & {
+        .caption-red &,
+        .caption-primary & {
             .caption {
                 background-color: $color__primary;
-                color: $color__white;
+                color: $color__primary-contrast;
 
                 a,
                 .link-title {
-                    color: $color__white;
+                    color: $color__primary-contrast;
                 }
             }
         }

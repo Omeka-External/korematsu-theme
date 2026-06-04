@@ -76,7 +76,7 @@ This theme offers 5 different page templates:
 
 You can add assets whose captions show up with a transition effect over the asset when you hover them.
 
-To do this, you just have to add a "Group" block to your page, then assign a class `image-hover-text` to this block, and optionally, a color class for the overlay: `blue`, `beige` or `red`. If no color class is assigned, it'll default to `blue`.
+To do this, you just have to add a "Group" block to your page, then assign a class `image-hover-text` to this block, and optionally, a color class for the overlay: `secondary`, `complementary` or `primary`. If no color class is assigned, it'll default to `secondary`.
 
 Finally add 3 blocks to the Group:
 1. Asset block: The image.
@@ -86,9 +86,9 @@ Finally add 3 blocks to the Group:
 
 ### Colored Captions
 
-Captions in blocks like "**Asset**", "**Item Carousel**", and "**Media Embed**" are rendered with a color background (blue by default).
+Captions in blocks like "**Asset**", "**Item Carousel**", and "**Media Embed**" are rendered with a color background (secondary by default).
 
-You can customize this color (beige or red) by assigning either `caption-beige` or `caption-red` class to the block in the "Block layout configuration" panel.
+You can customize this color (complementary or primary) by assigning either `caption-complementary` or `caption-primary` class to the block in the "Block layout configuration" panel.
 
 <img width="1443" alt="Screenshot 2025-04-20 at 9 33 59 PM" src="https://github.com/user-attachments/assets/30a5e0bd-be10-4a23-8be3-f393fab5a355" />
 
@@ -96,7 +96,7 @@ You can customize this color (beige or red) by assigning either `caption-beige` 
 
 You can add Group blocks and assign some specific classes in order for them to have a solid color background:
 - `has-background`: Class to assign the group block a solid color background.
-- `<color>`: The solid color to assign to the background. It can be `blue`, `red` or `beige`. If no color class is assigned, it'll default to `blue`.
+- `<color>`: The solid color to assign to the background. It can be `secondary`, `primary` or `complementary`. If no color class is assigned, it'll default to `secondary`.
 
 Optionally, you can add the `fullwidth` class to make it look full width (within the theme default container).
 

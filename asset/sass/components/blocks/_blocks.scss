@@ -56,23 +56,26 @@
         background-color: $color__bg-body;
     }
 
-    &.beige {
+    &.beige,
+    &.complementary {
         background-color: $color__complementary;
     }
 
-    &.blue {
+    &.blue,
+    &.secondary {
         background-color: $color__secondary;
 
         * {
-            color: $color__white;
+            color: $color__secondary-contrast;
         }
     }
 
-    &.red {
+    &.red,
+    &.primary {
         background-color: $color__primary;
 
         * {
-            color: $color__white;
+            color: $color__primary-contrast;
         }
     }
 }

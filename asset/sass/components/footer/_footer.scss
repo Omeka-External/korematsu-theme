@@ -5,7 +5,7 @@
         display: flex;
         background-color: $color__secondary;
         clear: both;
-        color: $color__white;
+        color: $color__secondary-contrast;
         flex-direction: column;
         font-size: 0.875rem;
         letter-spacing: 0.5px;
@@ -14,11 +14,11 @@
     }
 
     ul li::marker {
-        color: $color__white;
+        color: $color__secondary-contrast;
     }
 
     .footer_site_info * {
-        color: $color__white;
+        color: $color__secondary-contrast;
         margin-bottom: 0.4rem;
     }
 
@@ -131,17 +131,17 @@
             }
 
             a {
-                color: $color__white;
+                color: $color__secondary-contrast;
                 text-transform: none;
             
                 &:visited {
-                    color: $color__white;
+                    color: $color__secondary-contrast;
                 }
             
                 &:hover,
                 &:focus,
                 &:active {
-                    color: $color__white;
+                    color: $color__secondary-contrast;
                 }
 
                 &:hover {
@@ -161,7 +161,7 @@
     &__heading {
         display: flex;
         align-items: center;
-        color: $color__white;
+        color: $color__secondary-contrast;
         flex-direction: column;
         margin-bottom: 36px;
         
@@ -208,7 +208,7 @@
         a {
             display: flex;
             align-items: center;
-            border: 1px solid rgba($color__white, 0.6);
+            border: 1px solid color-mix(in srgb, $color__secondary-contrast 60%, transparent);
             border-radius: 50%;
             height: 51px;
             justify-content: center;
@@ -216,8 +216,8 @@
             width: 51px;
 
             &:hover {
-                border: 1px solid rgba($color__white, 1);
-            } 
+                border: 1px solid color-mix(in srgb, $color__secondary-contrast 100%, transparent);
+            }
         }
     }
 
@@ -244,7 +244,7 @@
         }
 
         a {
-            color: $color__white;
+            color: $color__secondary-contrast;
 
             &:hover {
                 text-decoration: underline;
@@ -258,7 +258,7 @@
     }
 
     a {
-        color: $color__white;
+        color: $color__secondary-contrast;
         text-decoration: underline;
     }
 }
