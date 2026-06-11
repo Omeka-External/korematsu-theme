@@ -58,4 +58,10 @@
             width: 20%;
         }
     }
+
+    & .template-lesson-plan {
+        #linked-filter {
+            display: none;
+        }
+    }
 }

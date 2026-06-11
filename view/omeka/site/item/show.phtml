@@ -19,6 +19,9 @@ $rightSidebarHasBlocks = $rightSidebarBlockContent->hasBlocks();
 
 // Layout
 $layout = $this->ResourceClassLayout($item);
+
+// Resource Template
+$template = $item->resourceTemplate();
 ?>
 
 <?php echo $this->ResourceTags($item); ?>
@@ -34,6 +37,13 @@ $layout = $this->ResourceClassLayout($item);
         $additionalContainerClasses = 'regions-container--all';
     } elseif ($mainHasBlocks && !$leftSidebarHasBlocks && !$rightSidebarHasBlocks) {
         $additionalContainerClasses = 'regions-container--main';
+    }
+
+    if ($template) {
+        $template_class = strtolower($template->label());
+        $template_class = preg_replace('/[^a-z0-9]+/', '-', $template_class);
+        $template_class = trim($template_class, '-');
+        $additionalContainerClasses .= " template-{$template_class}";
     }
     ?>
 
