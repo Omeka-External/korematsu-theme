@@ -1,6 +1,6 @@
 {
   "name": "korematsu-theme",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "An Omeka S Theme.",
   "main": "gulpfile.js",
   "scripts": {
