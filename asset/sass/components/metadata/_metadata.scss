@@ -53,9 +53,13 @@
                         margin-left: 160px;
                     }
                 }
+
+                &::after {
+                    content: none;
+                }
             }
 
-            &:has(dd + dd) dd {
+            &:has(dd + dd) dd:not(.resource) {
                 margin-left: 20px !important;
 
                 @media (min-width: $md) {
