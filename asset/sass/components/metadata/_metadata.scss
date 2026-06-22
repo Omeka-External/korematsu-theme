@@ -54,6 +54,23 @@
                     }
                 }
             }
+
+            &:has(dd + dd) dd {
+                margin-left: 20px !important;
+
+                @media (min-width: $md) {
+                    margin-left: 180px !important;
+                }
+
+                &::before {
+                    @include font-awesome;
+                    color: $color__primary;
+                    content: "\f061";
+                    font-size: 0.65rem;
+                    margin-right: 5px;
+                    margin-left: -19px;
+                }
+            }
     
             .language {
                 margin-right: 5px;
