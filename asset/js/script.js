@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }, true);
 
-    // Set Main-content min-height
+    // Set Main content min-height
     function setMainContentMinHeight() {
         mainContent.style.minHeight = `calc(100vh - ${mainHeader.offsetHeight + mainFooter.offsetHeight}px)`;
     }
