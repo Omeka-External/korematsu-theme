@@ -9,7 +9,6 @@ $secondaryColor = $this->themeSetting('secondary_color') ?? '#154f64';
 $complementaryColor = $this->themeSetting('complementary_color') ?? '#dad6cf';
 $accentColor = $this->themeSetting('accent_color') ?? '#9e2a1e';
 
-$this->htmlElement('html')->setAttribute('lang', $this->lang());
 $this->headMeta()->setCharset('utf-8');
 $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
 $this->headTitle($siteTitle)->setSeparator(' · ');

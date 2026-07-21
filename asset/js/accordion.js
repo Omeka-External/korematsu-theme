@@ -1,49 +1,57 @@
-const accordionScript = () => {
+document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('.accordion__trigger');
+        if (!trigger) return;
 
-    const accordionTrigger = document.getElementsByClassName('accordion__trigger');
+        trigger.classList.toggle('expanded');
+        trigger.setAttribute(
+            'aria-expanded',
+            trigger.classList.contains('expanded')
+        );
 
-    for (let i = 0; i < accordionTrigger.length; i++) {
-        accordionTrigger[i].addEventListener('click', function() {
-            this.classList.toggle('expanded');
-            this.setAttribute('aria-expanded', this.classList.contains('expanded'));
-            this.parentElement.parentElement.classList.toggle('expanded');
-            const panel = this.parentElement.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + 'px';
-            }
-        });
-    }
+        trigger.parentElement.parentElement.classList.toggle('expanded');
+
+        const panel = trigger.parentElement.nextElementSibling;
+        if (!panel) return;
+
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+    });
 
     function refreshPanelsHeight() {
-        for (let i = 0; i < accordionTrigger.length; i++) {
-            const panel = accordionTrigger[i].parentElement.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = panel.scrollHeight + 'px';
-            }
-        }
+        document
+            .querySelectorAll('.accordion__trigger.expanded')
+            .forEach(trigger => {
+                const panel = trigger.parentElement.nextElementSibling;
+                if (panel) {
+                    panel.style.maxHeight = panel.scrollHeight + 'px';
+                }
+            });
     }
 
     const expandCollapseBtns = document.querySelectorAll('.resources-linked__expand-collapse-btn');
 
     expandCollapseBtns.forEach((expandCollapseBtn) => {
         expandCollapseBtn.addEventListener('click', function() {
-            if (this.innerText.toLowerCase() === 'expand all') {
-
-                const collapsedTriggers = this.parentElement.nextElementSibling.querySelectorAll('.accordion__trigger:not(.expanded)');
-                collapsedTriggers.forEach((collapsedTrigger) => {
-                    collapsedTrigger.click();
-                });
-
-                this.innerText = 'Collapse all';
-            } else {
+            if (this.classList.contains('expanded')) {
                 const expandedTriggers = this.parentElement.nextElementSibling.querySelectorAll('.accordion__trigger.expanded');
                 expandedTriggers.forEach((expandedTrigger) => {
                     expandedTrigger.click();
                 });
 
-                this.innerText = 'Expand all'
+                this.innerText = expandAllText;
+                this.classList.remove('expanded');
+            } else {
+                const collapsedTriggers = this.parentElement.nextElementSibling.querySelectorAll('.accordion__trigger:not(.expanded)');
+                collapsedTriggers.forEach((collapsedTrigger) => {
+                    collapsedTrigger.click();
+                });
+
+                this.innerText = collapseAllText;
+                this.classList.add('expanded');
             }
         });
     });
@@ -63,10 +71,4 @@ const accordionScript = () => {
         clearTimeout(timeout);
         timeout = setTimeout(onResize, delay);
     });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', accordionScript);
-} else {
-    accordionScript();
-}
+});

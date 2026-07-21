@@ -58,9 +58,15 @@
                     content: none;
                 }
             }
+    
+            .language {
+                margin-right: 5px;
+            }
+        }
 
-            &:has(dd + dd) dd:not(.resource) {
-                margin-left: 20px !important;
+        &:not(.media-list) {
+            > .property:has(dd + dd) dd:not(.resource) {
+                margin-left: 30px !important;
 
                 @media (min-width: $md) {
                     margin-left: 180px !important;
@@ -75,10 +81,12 @@
                     margin-left: -19px;
                 }
             }
-    
-            .language {
-                margin-right: 5px;
-            }
+        }
+    }
+
+    .sidebar-region & {
+        dl:not(.media-list) > .property:has(dd + dd) dd:not(.resource) {
+            margin-left: 30px !important;
         }
     }
 
